@@ -6,6 +6,14 @@
     <title>Fabio Henrique | Contador & Dev Backend</title>
     <meta name="description" content="Portfolio de Fabio Henrique, especialista em contabilidade e desenvolvedor backend focado em automação e eficiência.">
     
+    <!-- SDK EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("sgpZwOP1O6kgWL8Bw");
+        })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -13,7 +21,7 @@
     <style>
         :root {
             --bg-body: #F9FAFB;
-            --bg-sidebar: #FFFFFF;
+            --bg-sidebar: rgba(255, 255, 255, 0.7);
             --bg-card: rgba(255, 255, 255, 0.75);
             --text-primary: #111827;
             --text-secondary: #4B5563;
@@ -23,76 +31,39 @@
             --font-main: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
             --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --input-bg: #f3f4f6;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-body: #0B0E14;
-                --bg-sidebar: #11141A;
+                --bg-sidebar: rgba(17, 20, 26, 0.6);
                 --text-primary: #F3F4F6;
                 --text-secondary: #9CA3AF;
                 --border-color: #1F2937;
                 --bg-card: rgba(17, 20, 26, 0.8);
+                --input-bg: #111827;
             }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-primary); display: flex; min-height: 100vh; }
 
-        body {
-            font-family: var(--font-main);
-            background-color: var(--bg-body);
-            color: var(--text-primary);
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            width: 280px;
-            height: 100vh;
-            background-color: var(--bg-sidebar);
-            border-right: 1px solid var(--border-color);
-            position: fixed;
-            left: 0; top: 0;
-            display: flex;
-            flex-direction: column;
-            padding: 2.5rem;
-            z-index: 100;
-        }
-
+        .sidebar { width: 280px; height: 100vh; background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color); position: fixed; left: 0; top: 0; display: flex; flex-direction: column; padding: 2.5rem; z-index: 100; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .profile-container { margin-bottom: 3rem; }
-        .profile-pic {
-            width: 70px; height: 70px; border-radius: 18px;
-            background: linear-gradient(135deg, var(--color-accent), #00d4ff);
-            margin-bottom: 1.5rem;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-weight: bold; font-family: var(--font-mono);
-            box-shadow: 0 10px 20px var(--color-accent-glow);
-        }
-
+        .profile-pic { width: 70px; height: 70px; border-radius: 18px; background: linear-gradient(135deg, var(--color-accent), #00d4ff); margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-family: var(--font-mono); box-shadow: 0 10px 20px var(--color-accent-glow); }
         .profile-name { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.5px; }
         .profile-title { font-size: 0.75rem; color: var(--text-secondary); font-family: var(--font-mono); margin-top: 4px; }
 
+        .status-badge { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+        .status-dot { width: 8px; height: 8px; background: #10B981; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+
         .nav-menu { display: flex; flex-direction: column; gap: 0.4rem; }
-        .nav-link {
-            display: flex; align-items: center; padding: 0.8rem 1rem;
-            border-radius: 10px; font-size: 0.9rem; color: var(--text-secondary);
-            transition: all 0.3s ease;
-        }
+        .nav-link { display: flex; align-items: center; padding: 0.8rem 1rem; border-radius: 10px; font-size: 0.9rem; color: var(--text-secondary); transition: all 0.3s ease; text-decoration: none; }
+        .nav-link:hover, .nav-link.active { background-color: rgba(0, 112, 243, 0.08); color: var(--color-accent); transform: translateX(5px); }
 
-        .nav-link:hover, .nav-link.active {
-            background-color: rgba(0, 112, 243, 0.08);
-            color: var(--color-accent);
-            transform: translateX(5px);
-        }
-
-        /* CONTEÚDO PRINCIPAL */
-        .main-content {
-            margin-left: 280px;
-            width: calc(100% - 280px);
-            padding: 5rem 10%;
-        }
-
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 5rem 10%; }
         section { margin-bottom: 10rem; opacity: 0; transform: translateY(30px); transition: 0.8s all ease; }
         section.visible { opacity: 1; transform: translateY(0); }
 
@@ -104,16 +75,7 @@
         #typewriter::after { content: '|'; animation: blink 0.7s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* GRID DE CARDS & FAQ */
-        .glass-card {
-            background: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(12px);
-            margin-bottom: 1.5rem;
-            transition: var(--transition-smooth);
-        }
+        .glass-card { background: var(--bg-card); padding: 2.5rem; border-radius: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(12px); margin-bottom: 1.5rem; transition: var(--transition-smooth); }
         .glass-card:hover { border-color: var(--color-accent); box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
 
         .faq-item { margin-bottom: 2rem; }
@@ -121,23 +83,27 @@
         .faq-a { font-size: 1.05rem; color: var(--text-primary); line-height: 1.6; }
 
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
-        .skill-item { border-left: 2px solid var(--border-color); padding-left: 1.5rem; transition: 0.3s; }
-        .skill-item:hover { border-left-color: var(--color-accent); }
-        .skill-name { font-weight: 600; display: block; }
+        .skill-item { background: var(--bg-card); border-radius: 15px; border: 1px solid var(--border-color); padding: 1.5rem; border-left: 4px solid var(--border-color); transition: var(--transition-smooth); cursor: default; }
+        .skill-item:hover { border-left-color: var(--color-accent); transform: translateY(-8px); background: var(--bg-sidebar); box-shadow: 0 15px 30px var(--color-accent-glow); border-right: 1px solid var(--color-accent-glow); }
+        .skill-name { font-weight: 600; display: block; margin-bottom: 4px; transition: color 0.3s ease; }
+        .skill-item:hover .skill-name { color: var(--color-accent); }
         .skill-level { font-size: 0.85rem; color: var(--text-secondary); }
 
-        /* TIMELINE */
         .timeline { position: relative; padding-left: 2rem; border-left: 1px solid var(--border-color); }
         .timeline-item { position: relative; margin-bottom: 3.5rem; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: calc(-2rem - 5px); top: 5px;
-            width: 9px; height: 9px; border-radius: 50%; background: var(--color-accent);
-            box-shadow: 0 0 10px var(--color-accent-glow);
-        }
+        .timeline-item::before { content: ''; position: absolute; left: calc(-2rem - 5px); top: 5px; width: 9px; height: 9px; border-radius: 50%; background: var(--color-accent); box-shadow: 0 0 10px var(--color-accent-glow); }
         .time-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-accent); margin-bottom: 0.5rem; display: block; }
         .time-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
 
-        /* RESPONSIVIDADE */
+        /* ESTILOS DO NOVO FORMULÁRIO DE CONTATO */
+        .contact-form { display: flex; flex-direction: column; gap: 1.2rem; max-width: 600px; margin: 2rem auto 0; }
+        .form-input { width: 100%; padding: 1.1rem; border-radius: 12px; border: 1px solid var(--border-color); background-color: var(--input-bg); color: var(--text-primary); font-family: var(--font-main); font-size: 0.95rem; transition: all 0.3s ease; }
+        .form-input:focus { outline: none; border-color: var(--color-accent); background-color: var(--bg-body); box-shadow: 0 0 0 4px var(--color-accent-glow); }
+        textarea.form-input { min-height: 150px; resize: vertical; }
+        .btn-submit { background-color: var(--color-accent); color: white; border: none; padding: 1.2rem; border-radius: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 20px var(--color-accent-glow); opacity: 0.9; }
+        .btn-submit:disabled { background-color: var(--text-secondary); cursor: not-allowed; transform: none; }
+
         @media (max-width: 1024px) {
             .sidebar { width: 100%; height: auto; position: relative; padding: 1.5rem; border-right: none; border-bottom: 1px solid var(--border-color); }
             .main-content { margin-left: 0; width: 100%; padding: 3rem 5%; }
@@ -155,6 +121,10 @@
             <div>
                 <div class="profile-name">Fabio Henrique</div>
                 <div class="profile-title">Contador & Dev Backend</div>
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span style="font-size: 0.65rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Disponível para projetos</span>
+                </div>
             </div>
         </div>
         <ul class="nav-menu">
@@ -168,7 +138,6 @@
     </nav>
 
     <main class="main-content">
-        <!-- HEADER / INÍCIO -->
         <section id="inicio" class="visible">
             <div class="section-header">
                 <h1 class="section-title">Fabio Henrique</h1>
@@ -179,7 +148,6 @@
             </div>
         </section>
 
-        <!-- SOBRE MIM -->
         <section id="sobre">
             <h2 class="section-title">Sobre Mim</h2>
             <div class="glass-card">
@@ -189,7 +157,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO CONTADOR -->
         <section id="contador">
             <h2 class="section-title">Expertise Contábil</h2>
             <div class="glass-card">
@@ -206,7 +173,6 @@
                     <p class="faq-a">Fiscal, Contábil e Controladoria.</p>
                 </div>
             </div>
-
             <h3 style="margin: 3rem 0 1.5rem; font-weight: 600;">Habilidades Analíticas</h3>
             <div class="skills-grid">
                 <div class="skill-item">
@@ -228,7 +194,6 @@
             </div>
         </section>
 
-        <!-- TRAJETÓRIA (CARREIRA) -->
         <section id="carreira">
             <h2 class="section-title">Trajetória Profissional</h2>
             <div class="timeline">
@@ -245,14 +210,12 @@
             </div>
         </section>
 
-        <!-- SEÇÃO T.I -->
         <section id="ti">
             <h2 class="section-title">Visão Tecnológica</h2>
             <div class="glass-card">
                 <p class="section-subtitle" style="margin-bottom: 2rem;">
                     Minha entrada no T.I nasceu da necessidade. Ao lidar com tarefas repetitivas na contabilidade, busquei alternativas para ganhar tempo. O que começou com planilhas evoluiu para uma paixão pelo desenvolvimento Backend.
                 </p>
-                
                 <div class="faq-item">
                     <span class="faq-q">Por que a área de T.I?</span>
                     <p class="faq-a">Era um hobby que se tornou essencial. Hoje, em qualquer área, o domínio de I.A., programação e análise de dados é o diferencial entre o operacional e o estratégico.</p>
@@ -264,38 +227,73 @@
             </div>
         </section>
 
-        <!-- PROJETOS -->
         <section id="projetos">
             <h2 class="section-title">Projetos</h2>
             <div class="skills-grid">
-                <div class="glass-card" style="margin-bottom: 0;">
-                    <span class="faq-q">Automação Contábil</span>
-                    <p class="faq-a">Scripts em Python para leitura de XML e integração de dados fiscais.</p>
+                <div class="skill-item">
+                    <span class="skill-name">Automação Contábil</span>
+                    <span class="skill-level">Scripts em Python para leitura de XML e integração de dados fiscais.</span>
                 </div>
-                <div class="glass-card" style="margin-bottom: 0;">
-                    <span class="faq-q">OCR Industrial</span>
-                    <p class="faq-a">Aplicação para conversão de documentos físicos em dados estruturados.</p>
+                <div class="skill-item">
+                    <span class="skill-name">OCR Industrial</span>
+                    <span class="skill-level">Aplicação para conversão de documentos físicos em dados estruturados.</span>
                 </div>
             </div>
         </section>
 
-        <!-- CONTATO -->
-        <section id="contato" style="text-align: center;">
-            <h2 class="section-title">Vamos Conectar?</h2>
-            <p class="section-subtitle" style="margin: 0 auto 3rem;">Estou sempre aberto a discussões sobre inovação contábil e novas tecnologias.</p>
-            <a href="mailto:fabiohenrique.fh974@gmail.com" class="nav-link active" style="display: inline-block; padding: 1rem 3rem; font-weight: 600;">ENVIAR E-MAIL</a>
+        <!-- SEÇÃO DE CONTATO ATUALIZADA -->
+        <section id="contato">
+            <h2 class="section-title" style="text-align: center;">Vamos Conectar?</h2>
+            <p class="section-subtitle" style="margin: 0 auto 2rem; text-align: center;">Estou sempre aberto a discussões sobre inovação contábil e novas tecnologias.</p>
+            
+            <div class="glass-card" style="max-width: 700px; margin: 0 auto;">
+                <form id="contact-form" class="contact-form">
+                    <input type="text" name="name" id="user_name" class="form-input" placeholder="Seu Nome" required>
+                    <input type="email" name="email" id="user_email" class="form-input" placeholder="Seu Melhor E-mail" required>
+                    <textarea name="message" id="message" class="form-input" placeholder="Como posso te ajudar?" required></textarea>
+                    <button type="submit" id="button-send" class="btn-submit">Enviar Mensagem</button>
+                </form>
+            </div>
         </section>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- LOGICA EMAILJS ---
+            const btn = document.getElementById('button-send');
+            const form = document.getElementById('contact-form');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                btn.disabled = true;
+                btn.textContent = 'Enviando...';
+
+                const serviceID = 'service_t1b5z3n';
+                const templateID = 'template_zspw138';
+
+                emailjs.sendForm(serviceID, templateID, this)
+                    .then(() => {
+                        btn.textContent = 'Mensagem Enviada!';
+                        alert('Sucesso! Receberei sua mensagem em breve.');
+                        form.reset();
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.textContent = 'Enviar Mensagem';
+                        }, 3000);
+                    }, (err) => {
+                        btn.disabled = false;
+                        btn.textContent = 'Erro no envio';
+                        alert('Erro: ' + JSON.stringify(err));
+                    });
+            });
+
             // EFEITO TYPEWRITER DINÂMICO
             const words = ["Contador", "Estudante de Backend", "Especialista Fiscal"];
-            let i = 0; let j = 0; let currentWord = ""; let isDeleting = false;
+            let i = 0; let j = 0; let isDeleting = false;
             const typewriter = document.getElementById("typewriter");
 
             function type() {
-                currentWord = words[i];
+                const currentWord = words[i];
                 if (isDeleting) {
                     typewriter.textContent = currentWord.substring(0, j - 1);
                     j--;
@@ -309,28 +307,22 @@
             }
             type();
 
-            // SCROLL REVEAL & NAV ACTIVE
+            // INTERSECTION OBSERVER
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.nav-link');
-
-            window.addEventListener('scroll', () => {
-                let current = "";
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    if (pageYOffset >= sectionTop - 200) {
-                        current = section.getAttribute('id');
-                        section.classList.add('visible');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const current = entry.target.getAttribute('id');
+                        entry.target.classList.add('visible');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').includes(current)) link.classList.add('active');
+                        });
                     }
                 });
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href').includes(current)) {
-                        link.classList.add('active');
-                    }
-                });
-            });
+            }, { threshold: 0.3 });
+            sections.forEach(section => observer.observe(section));
         });
     </script>
 </body>
