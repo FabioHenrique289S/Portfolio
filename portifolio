@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabio Henrique | Contador & Dev Backend</title>
+    <meta name="description" content="Portfolio de Fabio Henrique, especialista em contabilidade e desenvolvedor backend focado em automação e eficiência.">
+   
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("sgpZwOP1O6kgWL8Bw");
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-body: #F9FAFB;
+            --bg-sidebar: rgba(255, 255, 255, 0.7);
+            --bg-card: rgba(255, 255, 255, 0.75);
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --color-accent: #0070F3;
+            --color-accent-glow: rgba(0, 112, 243, 0.2);
+            --border-color: #E5E7EB;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --input-bg: #f3f4f6;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #0B0E14;
+                --bg-sidebar: rgba(17, 20, 26, 0.6);
+                --text-primary: #F3F4F6;
+                --text-secondary: #9CA3AF;
+                --border-color: #1F2937;
+                --bg-card: rgba(17, 20, 26, 0.8);
+                --input-bg: #111827;
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-primary); display: flex; min-height: 100vh; }
+
+        .sidebar { width: 280px; height: 100vh; background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color); position: fixed; left: 0; top: 0; display: flex; flex-direction: column; padding: 2.5rem; z-index: 100; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .profile-container { margin-bottom: 3rem; }
+        .profile-pic { width: 70px; height: 70px; border-radius: 18px; background: linear-gradient(135deg, var(--color-accent), #00d4ff); margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-family: var(--font-mono); box-shadow: 0 10px 20px var(--color-accent-glow); }
+        .profile-name { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.5px; }
+        .profile-title { font-size: 0.75rem; color: var(--text-secondary); font-family: var(--font-mono); margin-top: 4px; }
+
+        .status-badge { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+        .status-dot { width: 8px; height: 8px; background: #10B981; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+
+        .nav-menu { display: flex; flex-direction: column; gap: 0.4rem; }
+        .nav-link { display: flex; align-items: center; padding: 0.8rem 1rem; border-radius: 10px; font-size: 0.9rem; color: var(--text-secondary); transition: all 0.3s ease; text-decoration: none; }
+        .nav-link:hover, .nav-link.active { background-color: rgba(0, 112, 243, 0.08); color: var(--color-accent); transform: translateX(5px); }
+
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 5rem 10%; }
+        section { margin-bottom: 10rem; opacity: 0; transform: translateY(30px); transition: 0.8s all ease; }
+        section.visible { opacity: 1; transform: translateY(0); }
+
+        .section-header { margin-bottom: 3.5rem; }
+        .section-title { font-size: 2.8rem; font-weight: 600; letter-spacing: -1.5px; margin-bottom: 1rem; }
+        .section-subtitle { font-size: 1.15rem; color: var(--text-secondary); line-height: 1.7; max-width: 800px; }
+
+        .tech-highlight { font-family: var(--font-mono); color: var(--color-accent); font-weight: 700; }
+        #typewriter::after { content: '|'; animation: blink 0.7s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .glass-card { background: var(--bg-card); padding: 2.5rem; border-radius: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(12px); margin-bottom: 1.5rem; transition: var(--transition-smooth); }
+        .glass-card:hover { border-color: var(--color-accent); box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
+
+        .faq-item { margin-bottom: 2rem; }
+        .faq-q { font-family: var(--font-mono); color: var(--color-accent); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+        .faq-a { font-size: 1.05rem; color: var(--text-primary); line-height: 1.6; }
+
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .skill-item { background: var(--bg-card); border-radius: 15px; border: 1px solid var(--border-color); padding: 1.5rem; border-left: 4px solid var(--border-color); transition: var(--transition-smooth); cursor: default; }
+        .skill-item:hover { border-left-color: var(--color-accent); transform: translateY(-8px); background: var(--bg-sidebar); box-shadow: 0 15px 30px var(--color-accent-glow); border-right: 1px solid var(--color-accent-glow); }
+        .skill-name { font-weight: 600; display: block; margin-bottom: 4px; transition: color 0.3s ease; }
+        .skill-item:hover .skill-name { color: var(--color-accent); }
+        .skill-level { font-size: 0.85rem; color: var(--text-secondary); }
+
+        .timeline { position: relative; padding-left: 2rem; border-left: 1px solid var(--border-color); }
+        .timeline-item { position: relative; margin-bottom: 3.5rem; }
+        .timeline-item::before { content: ''; position: absolute; left: calc(-2rem - 5px); top: 5px; width: 9px; height: 9px; border-radius: 50%; background: var(--color-accent); box-shadow: 0 0 10px var(--color-accent-glow); }
+        .time-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-accent); margin-bottom: 0.5rem; display: block; }
+        .time-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+        .contact-form { display: flex; flex-direction: column; gap: 1.2rem; max-width: 600px; margin: 2rem auto 0; }
+        .form-input { width: 100%; padding: 1.1rem; border-radius: 12px; border: 1px solid var(--border-color); background-color: var(--input-bg); color: var(--text-primary); font-family: var(--font-main); font-size: 0.95rem; transition: all 0.3s ease; }
+        .form-input:focus { outline: none; border-color: var(--color-accent); background-color: var(--bg-body); box-shadow: 0 0 0 4px var(--color-accent-glow); }
+        textarea.form-input { min-height: 150px; resize: vertical; }
+        .btn-submit { background-color: var(--color-accent); color: white; border: none; padding: 1.2rem; border-radius: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 20px var(--color-accent-glow); opacity: 0.9; }
+        .btn-submit:disabled { background-color: var(--text-secondary); cursor: not-allowed; transform: none; }
+
+        @media (max-width: 1024px) {
+            .sidebar { width: 100%; height: auto; position: relative; padding: 1.5rem; border-right: none; border-bottom: 1px solid var(--border-color); }
+            .main-content { margin-left: 0; width: 100%; padding: 3rem 5%; }
+            .nav-menu { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            .profile-container { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+            .profile-pic { margin-bottom: 0; width: 50px; height: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="profile-container">
+            <div class="profile-pic">FH</div>
+            <div>
+                <div class="profile-name">Fabio Henrique</div>
+                <div class="profile-title">Contador & Dev Backend</div>
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span style="font-size: 0.65rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Disponível para projetos</span>
+                </div>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#inicio" class="nav-link active">Início</a></li>
+            <li><a href="#sobre" class="nav-link">Sobre</a></li>
+            <li><a href="#contador" class="nav-link">Contador</a></li>
+            <li><a href="#ti" class="nav-link">T.I</a></li>
+            <li><a href="#projetos" class="nav-link">Projetos</a></li>
+            <li><a href="#contato" class="nav-link">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <section id="inicio" class="visible">
+            <div class="section-header">
+                <h1 class="section-title">Fabio Henrique</h1>
+                <p class="section-subtitle" style="font-size: 1.5rem;">
+                    <span class="tech-highlight" id="typewriter"></span><br>
+                    Ajudando empresas em seus processos fiscais e contábeis através da tecnologia.
+                </p>
+            </div>
+        </section>
+
+        <section id="sobre">
+            <h2 class="section-title">Sobre Mim</h2>
+            <div class="glass-card">
+                <p class="section-subtitle">
+                    Tenho 23 anos e atuo na área fiscal há mais de 3 anos, com foco em fechamento de empresas (Simples Nacional, Lucro Real e Lucro Presumido). O que começou como um hobby de automatizar processos, hoje é minha principal ferramenta para gerar valor e eficiência para negócios.
+                </p>
+            </div>
+        </section>
+
+        <section id="contador">
+            <h2 class="section-title">Expertise Contábil</h2>
+            <div class="glass-card">
+                <div class="faq-item">
+                    <span class="faq-q">Por que contabilidade?</span>
+                    <p class="faq-a">Sempre busquei entender o motor financeiro das empresas. Aos 14 anos, mergulhei nos estudos de economia e finanças para compreender como organizar o capital, o que me levou naturalmente à graduação.</p>
+                </div>
+                <div class="faq-item">
+                    <span class="faq-q">Conhecimento atual?</span>
+                    <p class="faq-a">Especialista em área fiscal, operando o ciclo completo de fechamento tributário em diversos regimes (Simples Nacional, Lucro Real e Presumido).</p>
+                </div>
+                <div class="faq-item">
+                    <span class="faq-q">Áreas de interesse?</span>
+                    <p class="faq-a">Fiscal, Contábil e Controladoria.</p>
+                </div>
+            </div>
+            <h3 style="margin: 3rem 0 1.5rem; font-weight: 600;">Habilidades Analíticas</h3>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <span class="skill-name">Excel Avançado</span>
+                    <span class="skill-level">Forte / Modelagem de Dados</span>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Power Query</span>
+                    <span class="skill-level">Automação de Layouts & ETL</span>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Power BI</span>
+                    <span class="skill-level">Em Desenvolvimento / BI</span>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Cultura Colaborativa</span>
+                    <span class="skill-level">Comunicação Assertiva</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="carreira">
+            <h2 class="section-title">Trajetória Profissional</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="time-date">Dezembro 2025 — Atual</span>
+                    <h3 class="time-title">Contabem Contabilidade</h3>
+                    <p class="section-subtitle">Responsável pelo fechamento fiscal completo, atendimento estratégico focado na reforma tributária e desenvolvimento de automações para otimização de processos internos.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="time-date">Abril 2023 — Dezembro 2025</span>
+                    <h3 class="time-title">CS-Integra</h3>
+                    <p class="section-subtitle">Entrega de obrigações acessórias (SPED Fiscal, EFD-REINF), operações em SAP (Miro/Migo) e aplicação de metodologias ágeis como Scrum e Kanban para gestão de demandas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ti">
+            <h2 class="section-title">Visão Tecnológica</h2>
+            <div class="glass-card">
+                <p class="section-subtitle" style="margin-bottom: 2rem;">
+                    Minha entrada no T.I nasceu da necessidade. Ao lidar com tarefas repetitivas na contabilidade, busquei alternativas para ganhar tempo. O que começou com planilhas evoluiu para uma paixão pelo desenvolvimento Backend.
+                </p>
+                <div class="faq-item">
+                    <span class="faq-q">Por que a área de T.I?</span>
+                    <p class="faq-a">Era um hobby que se tornou essencial. Hoje, em qualquer área, o domínio de I.A., programação e análise de dados é o diferencial entre o operacional e o estratégico.</p>
+                </div>
+                <div class="faq-item">
+                    <span class="faq-q">Formação & Projetos?</span>
+                    <p class="faq-a">Atualmente cursando <strong>Backend no SENAI</strong>. Focado em arquitetura de sites e softwares utilizando Python, com ênfase em projetos de automação web (RPA) e engenharia de dados.</p>
+                </div>
+            </div>
+        </section>
+
+<section id="projetos">
+    <h2 class="section-title">Projetos Interativos</h2>
+   
+    <div class="glass-card" style="border-top: 4px solid #10B981;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <span class="faq-q">Ferramenta Ativa</span>
+                <h3 class="time-title" style="margin:0">PDF Vision Pro <span style="font-size: 0.7rem; background: #10B981; color: #000; padding: 2px 8px; border-radius: 10px; margin-left: 10px;">PYTHON POWERED</span></h3>
+            </div>
+            <div id="loading-py" style="font-size: 0.7rem; color: var(--text-secondary);">
+                ⚡ Carregando Python...
+            </div>
+        </div>
+
+        <div class="skills-grid" style="grid-template-columns: 1fr; gap: 2rem;">
+            <div class="skill-item" style="border: none; background: var(--bg-body); padding: 2rem;">
+               
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button id="tab-merge" class="btn-submit" style="background: #10B981; flex: 1; font-size: 0.7rem; padding: 10px;">JUNTAR PDFs</button>
+                    <button id="tab-split" class="btn-submit" style="background: #1f2937; flex: 1; font-size: 0.7rem; padding: 10px;">DIVIDIR PDF</button>
+                </div>
+
+                <input type="file" id="pdf-upload" class="form-input" style="margin-bottom: 15px;" multiple accept=".pdf">
+               
+                <div id="split-options" style="display: none; margin-bottom: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--color-accent); font-family: var(--font-mono);">Intervalo (ex: 1-3, 5):</label>
+                    <input type="text" id="split-range" class="form-input" placeholder="Digite as páginas...">
+                </div>
+
+                <button id="run-btn" class="btn-submit" style="width: 100%;" disabled>Processar Arquivo</button>
+               
+                <div id="pdf-status" style="margin-top: 15px; font-family: var(--font-mono); font-size: 0.8rem; text-align: center;"></div>
+                <center>
+                    <a id="pdf-download" style="display:none; margin-top: 15px; color: #10B981; font-weight: bold; text-decoration: none; border: 1px dashed #10B981; padding: 10px; border-radius: 8px;">📥 Baixar Resultado</a>
+                </center>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <section id="contato">
+            <h2 class="section-title" style="text-align: center;">Precisa de ajuda? Fale comigo.</h2>
+            <p class="section-subtitle" style="margin: 0 auto 2rem; text-align: center;">Entre em contato para soluções personalizadas.</p>
+           
+            <div class="glass-card" style="max-width: 700px; margin: 0 auto;">
+                <form id="contact-form" class="contact-form">
+                    <input type="text" name="name" id="user_name" class="form-input" placeholder="Seu Nome" required>
+                    <input type="email" name="email" id="user_email" class="form-input" placeholder="Seu Melhor E-mail" required>
+                    <textarea name="message" id="message" class="form-input" placeholder="Como posso te ajudar?" required></textarea>
+                    <button type="submit" id="button-send" class="btn-submit">Enviar Mensagem</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('button-send');
+            const form = document.getElementById('contact-form');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                btn.disabled = true;
+                btn.textContent = 'Enviando...';
+
+                const serviceID = 'service_t1b5z3n';
+                const templateID = 'template_zspw138';
+
+                emailjs.sendForm(serviceID, templateID, this)
+                    .then(() => {
+                        btn.textContent = 'Mensagem Enviada!';
+                        alert('Sucesso! Receberei sua mensagem em breve.');
+                        form.reset();
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.textContent = 'Enviar Mensagem';
+                        }, 3000);
+                    }, (err) => {
+                        btn.disabled = false;
+                        btn.textContent = 'Erro no envio';
+                        alert('Erro: ' + JSON.stringify(err));
+                    });
+            });
+
+            // EFEITO TYPEWRITER ATUALIZADO (Removido "Especialista Fiscal")
+            const words = ["Contador", "Estudante de Backend"];
+            let i = 0; let j = 0; let isDeleting = false;
+            const typewriter = document.getElementById("typewriter");
+
+            function type() {
+                const currentWord = words[i];
+                if (isDeleting) {
+                    typewriter.textContent = currentWord.substring(0, j - 1);
+                    j--;
+                    if (j == 0) { isDeleting = false; i = (i + 1) % words.length; }
+                } else {
+                    typewriter.textContent = currentWord.substring(0, j + 1);
+                    j++;
+                    if (j == currentWord.length) { isDeleting = true; setTimeout(type, 2000); return; }
+                }
+                setTimeout(type, isDeleting ? 50 : 120);
+            }
+            type();
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const current = entry.target.getAttribute('id');
+                        entry.target.classList.add('visible');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').includes(current)) link.classList.add('active');
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+<link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+<script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+<py-config>
+    packages = ["pypdf"]
+</py-config>
+
+<py-script>
+import js
+import io
+from pypdf import PdfReader, PdfWriter
+from pyodide.ffi import create_proxy
+
+# Variável para controlar o modo (Juntar ou Dividir)
+current_mode = "merge"
+
+async def process_pdf(event):
+    status = js.document.getElementById("pdf-status")
+    download_btn = js.document.getElementById("pdf-download")
+    file_input = js.document.getElementById("pdf-upload")
+    range_input = js.document.getElementById("split-range")
+   
+    files = file_input.files
+    if len(files) == 0:
+        status.innerHTML = "❌ Selecione um arquivo primeiro!"
+        return
+
+    status.innerHTML = "⏳ Processando... aguarde."
+    download_btn.style.display = "none"
+    writer = PdfWriter()
+
+    try:
+        if current_mode == "merge":
+            if len(files) < 2:
+                status.innerHTML = "❌ Selecione 2 ou mais PDFs para juntar."
+                return
+            for i in range(len(files)):
+                f = files.item(i)
+                arr = await f.arrayBuffer()
+                writer.append(io.BytesIO(arr.to_py()))
+       
+        else: # MODO SPLIT
+            f = files.item(0)
+            arr = await f.arrayBuffer()
+            reader = PdfReader(io.BytesIO(arr.to_py()))
+           
+            # Lógica igual ao seu script original
+            partes = range_input.value.replace(" ", "").split(",")
+            for parte in partes:
+                if "-" in parte:
+                    ini, fim = map(int, parte.split("-"))
+                    for p in range(ini-1, fim):
+                        writer.add_page(reader.pages[p])
+                else:
+                    writer.add_page(reader.pages[int(parte)-1])
+
+        # Gerar Download
+        out = io.BytesIO()
+        writer.write(out)
+        js_array = js.Uint8Array.new(out.getvalue())
+        blob = js.Blob.new([js_array], {type: "application/pdf"})
+        url = js.URL.createObjectURL(blob)
+       
+        download_btn.href = url
+        download_btn.download = f"pdf_vision_{current_mode}.pdf"
+        download_btn.style.display = "inline-block"
+        status.innerHTML = "✅ Concluído com sucesso!"
+
+    except Exception as e:
+        status.innerHTML = f"⚠️ Erro: Verifique os dados."
+
+# Alternar abas
+def set_mode(mode):
+    global current_mode
+    current_mode = mode
+    btn_run = js.document.getElementById("run-btn")
+    opts = js.document.getElementById("split-options")
+    m_tab = js.document.getElementById("tab-merge")
+    s_tab = js.document.getElementById("tab-split")
+   
+    btn_run.disabled = False
+    if mode == "merge":
+        opts.style.display = "none"
+        m_tab.style.background = "#10B981"
+        s_tab.style.background = "#1f2937"
+    else:
+        opts.style.display = "block"
+        s_tab.style.background = "#10B981"
+        m_tab.style.background = "#1f2937"
+
+# Inicialização
+js.document.getElementById("loading-py").innerHTML = "✅ Python Ativo"
+js.document.getElementById("run-btn").disabled = False
+
+# Listeners
+js.document.getElementById("run-btn").addEventListener("click", create_proxy(process_pdf))
+js.document.getElementById("tab-merge").addEventListener("click", create_proxy(lambda e: set_mode("merge")))
+js.document.getElementById("tab-split").addEventListener("click", create_proxy(lambda e: set_mode("split")))
+</py-script>
+</body>
+</html>
