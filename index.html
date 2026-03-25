@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabio Henrique | Contador & Dev Backend</title>
     <meta name="description" content="Portfolio de Fabio Henrique, especialista em contabilidade e desenvolvedor backend focado em automação e eficiência.">
-    
-    <!-- SDK EmailJS -->
+   
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
@@ -95,7 +94,6 @@
         .time-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-accent); margin-bottom: 0.5rem; display: block; }
         .time-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
 
-        /* ESTILOS DO NOVO FORMULÁRIO DE CONTATO */
         .contact-form { display: flex; flex-direction: column; gap: 1.2rem; max-width: 600px; margin: 2rem auto 0; }
         .form-input { width: 100%; padding: 1.1rem; border-radius: 12px; border: 1px solid var(--border-color); background-color: var(--input-bg); color: var(--text-primary); font-family: var(--font-main); font-size: 0.95rem; transition: all 0.3s ease; }
         .form-input:focus { outline: none; border-color: var(--color-accent); background-color: var(--bg-body); box-shadow: 0 0 0 4px var(--color-accent-glow); }
@@ -227,25 +225,50 @@
             </div>
         </section>
 
-        <section id="projetos">
-            <h2 class="section-title">Projetos</h2>
-            <div class="skills-grid">
-                <div class="skill-item">
-                    <span class="skill-name">Automação Contábil</span>
-                    <span class="skill-level">Scripts em Python para leitura de XML e integração de dados fiscais.</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-name">OCR Industrial</span>
-                    <span class="skill-level">Aplicação para conversão de documentos físicos em dados estruturados.</span>
-                </div>
+<section id="projetos">
+    <h2 class="section-title">Projetos Interativos</h2>
+   
+    <div class="glass-card" style="border-top: 4px solid #10B981;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <span class="faq-q">Ferramenta Ativa</span>
+                <h3 class="time-title" style="margin:0">PDF Vision Pro <span style="font-size: 0.7rem; background: #10B981; color: #000; padding: 2px 8px; border-radius: 10px; margin-left: 10px;">PYTHON POWERED</span></h3>
             </div>
-        </section>
+            <div id="loading-py" style="font-size: 0.7rem; color: var(--text-secondary);">
+                ⚡ Carregando Python...
+            </div>
+        </div>
 
-        <!-- SEÇÃO DE CONTATO ATUALIZADA -->
+        <div class="skills-grid" style="grid-template-columns: 1fr; gap: 2rem;">
+            <div class="skill-item" style="border: none; background: var(--bg-body); padding: 2rem;">
+               
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button id="tab-merge" class="btn-submit" style="background: #10B981; flex: 1; font-size: 0.7rem; padding: 10px;">JUNTAR PDFs</button>
+                    <button id="tab-split" class="btn-submit" style="background: #1f2937; flex: 1; font-size: 0.7rem; padding: 10px;">DIVIDIR PDF</button>
+                </div>
+
+                <input type="file" id="pdf-upload" class="form-input" style="margin-bottom: 15px;" multiple accept=".pdf">
+               
+                <div id="split-options" style="display: none; margin-bottom: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--color-accent); font-family: var(--font-mono);">Intervalo (ex: 1-3, 5):</label>
+                    <input type="text" id="split-range" class="form-input" placeholder="Digite as páginas...">
+                </div>
+
+                <button id="run-btn" class="btn-submit" style="width: 100%;" disabled>Processar Arquivo</button>
+               
+                <div id="pdf-status" style="margin-top: 15px; font-family: var(--font-mono); font-size: 0.8rem; text-align: center;"></div>
+                <center>
+                    <a id="pdf-download" style="display:none; margin-top: 15px; color: #10B981; font-weight: bold; text-decoration: none; border: 1px dashed #10B981; padding: 10px; border-radius: 8px;">📥 Baixar Resultado</a>
+                </center>
+            </div>
+        </div>
+    </div>
+</section>
+
         <section id="contato">
-            <h2 class="section-title" style="text-align: center;">Vamos Conectar?</h2>
-            <p class="section-subtitle" style="margin: 0 auto 2rem; text-align: center;">Estou sempre aberto a discussões sobre inovação contábil e novas tecnologias.</p>
-            
+            <h2 class="section-title" style="text-align: center;">Precisa de ajuda? Fale comigo.</h2>
+            <p class="section-subtitle" style="margin: 0 auto 2rem; text-align: center;">Entre em contato para soluções personalizadas.</p>
+           
             <div class="glass-card" style="max-width: 700px; margin: 0 auto;">
                 <form id="contact-form" class="contact-form">
                     <input type="text" name="name" id="user_name" class="form-input" placeholder="Seu Nome" required>
@@ -259,7 +282,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- LOGICA EMAILJS ---
             const btn = document.getElementById('button-send');
             const form = document.getElementById('contact-form');
 
@@ -287,8 +309,8 @@
                     });
             });
 
-            // EFEITO TYPEWRITER DINÂMICO
-            const words = ["Contador", "Estudante de Backend", "Especialista Fiscal"];
+            // EFEITO TYPEWRITER ATUALIZADO (Removido "Especialista Fiscal")
+            const words = ["Contador", "Estudante de Backend"];
             let i = 0; let j = 0; let isDeleting = false;
             const typewriter = document.getElementById("typewriter");
 
@@ -307,7 +329,6 @@
             }
             type();
 
-            // INTERSECTION OBSERVER
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.nav-link');
             const observer = new IntersectionObserver((entries) => {
@@ -325,5 +346,104 @@
             sections.forEach(section => observer.observe(section));
         });
     </script>
+<link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+<script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+<py-config>
+    packages = ["pypdf"]
+</py-config>
+
+<py-script>
+import js
+import io
+from pypdf import PdfReader, PdfWriter
+from pyodide.ffi import create_proxy
+
+# Variável para controlar o modo (Juntar ou Dividir)
+current_mode = "merge"
+
+async def process_pdf(event):
+    status = js.document.getElementById("pdf-status")
+    download_btn = js.document.getElementById("pdf-download")
+    file_input = js.document.getElementById("pdf-upload")
+    range_input = js.document.getElementById("split-range")
+   
+    files = file_input.files
+    if len(files) == 0:
+        status.innerHTML = "❌ Selecione um arquivo primeiro!"
+        return
+
+    status.innerHTML = "⏳ Processando... aguarde."
+    download_btn.style.display = "none"
+    writer = PdfWriter()
+
+    try:
+        if current_mode == "merge":
+            if len(files) < 2:
+                status.innerHTML = "❌ Selecione 2 ou mais PDFs para juntar."
+                return
+            for i in range(len(files)):
+                f = files.item(i)
+                arr = await f.arrayBuffer()
+                writer.append(io.BytesIO(arr.to_py()))
+       
+        else: # MODO SPLIT
+            f = files.item(0)
+            arr = await f.arrayBuffer()
+            reader = PdfReader(io.BytesIO(arr.to_py()))
+           
+            # Lógica igual ao seu script original
+            partes = range_input.value.replace(" ", "").split(",")
+            for parte in partes:
+                if "-" in parte:
+                    ini, fim = map(int, parte.split("-"))
+                    for p in range(ini-1, fim):
+                        writer.add_page(reader.pages[p])
+                else:
+                    writer.add_page(reader.pages[int(parte)-1])
+
+        # Gerar Download
+        out = io.BytesIO()
+        writer.write(out)
+        js_array = js.Uint8Array.new(out.getvalue())
+        blob = js.Blob.new([js_array], {type: "application/pdf"})
+        url = js.URL.createObjectURL(blob)
+       
+        download_btn.href = url
+        download_btn.download = f"pdf_vision_{current_mode}.pdf"
+        download_btn.style.display = "inline-block"
+        status.innerHTML = "✅ Concluído com sucesso!"
+
+    except Exception as e:
+        status.innerHTML = f"⚠️ Erro: Verifique os dados."
+
+# Alternar abas
+def set_mode(mode):
+    global current_mode
+    current_mode = mode
+    btn_run = js.document.getElementById("run-btn")
+    opts = js.document.getElementById("split-options")
+    m_tab = js.document.getElementById("tab-merge")
+    s_tab = js.document.getElementById("tab-split")
+   
+    btn_run.disabled = False
+    if mode == "merge":
+        opts.style.display = "none"
+        m_tab.style.background = "#10B981"
+        s_tab.style.background = "#1f2937"
+    else:
+        opts.style.display = "block"
+        s_tab.style.background = "#10B981"
+        m_tab.style.background = "#1f2937"
+
+# Inicialização
+js.document.getElementById("loading-py").innerHTML = "✅ Python Ativo"
+js.document.getElementById("run-btn").disabled = False
+
+# Listeners
+js.document.getElementById("run-btn").addEventListener("click", create_proxy(process_pdf))
+js.document.getElementById("tab-merge").addEventListener("click", create_proxy(lambda e: set_mode("merge")))
+js.document.getElementById("tab-split").addEventListener("click", create_proxy(lambda e: set_mode("split")))
+</py-script>
 </body>
 </html>
